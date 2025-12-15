@@ -345,8 +345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frame: {fileID: 607621649}
-  frameWidth: 0.5
-  frameHeight: 0.1
+  frameWidth: 0.6
+  frameHeight: 0.6
   rawImage: {fileID: 0}
   imageSender: {fileID: 1582161790}
 --- !u!114 &190360470

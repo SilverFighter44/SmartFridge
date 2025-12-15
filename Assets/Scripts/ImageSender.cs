@@ -76,7 +76,7 @@ public class ImageSender : MonoBehaviour
                 switch(scannerType)
                 {
                     case ScannerType.Product:
-                        ProductResponse product = JsonUtility.FromJson<ProductResponse>(json);
+                        FoodResponse product = JsonUtility.FromJson<FoodResponse>(json);
                         nameInput.text = product.label;
                         Debug.Log("Znaleziony produkt: " + product.label + " (pewnoœæ: " + product.confidence + ")");
                         break;
@@ -106,7 +106,7 @@ public class ExpireResponse
 }
 
 [System.Serializable]
-public class ProductResponse
+public class FoodResponse
 {
     public string label;
     public float confidence;
