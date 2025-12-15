@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class ProductList : MonoBehaviour
 {
@@ -161,7 +162,16 @@ public class ProductList : MonoBehaviour
 
     public void ScanButton()
     {
-
+        ProductData.Instance.CurrentProduct = new Product
+        {
+            Name = currentProduct.ProductName,
+            DateOfStorage = currentProduct.DateOfStorage,
+            DateOfOppenning = currentProduct.DateOfOppenning,
+            ExpirationDate = currentProduct.ExpirationDate,
+            HasExpirationDate = currentProduct.HasExpirationDate,
+            IsOpen = currentProduct.IsOpen
+        };
+        SceneManager.LoadScene(3);
     }
 
     public void OpenEnterExpDateTab()

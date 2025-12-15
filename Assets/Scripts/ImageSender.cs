@@ -15,7 +15,7 @@ public class ImageSender : MonoBehaviour
     private string url = "https://przepyszne.eu/upload/expire";
 
     [SerializeField] private ScannerType scannerType;
-    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private TMP_InputField nameInput, dayInput, monthInput, yearInput;
 
     // Wstaw œcie¿kê wzglêdn¹ lub absolutn¹
     public string imagePath;
@@ -76,11 +76,15 @@ public class ImageSender : MonoBehaviour
                 switch(scannerType)
                 {
                     case ScannerType.Product:
-                        
+                        ProductResponse product = JsonUtility.FromJson<ProductResponse>(json);
+                        nameInput.text = product.label;
+                        Debug.Log("Znaleziony produkt: " + product.label + " (pewnoœæ: " + product.confidence + ")");
                         break;
                     case ScannerType.Date:
-                        ExpireResponse data = JsonUtility.FromJson<ExpireResponse>(json);
-                        nameInput.text = data.date;
+                        ExpireResponse data = JsonUtility.FromJson<ExpireResponse>(json); 
+                        dayInput.text = data.date.Split('-')[2];
+                        monthInput.text = data.date.Split('-')[1];
+                        yearInput.text = data.date.Split('-')[0];
                         Debug.Log("Data wa¿noœci: " + data.date);
                         break;
                 }
@@ -94,9 +98,16 @@ public class ImageSender : MonoBehaviour
     }
 }
 
-// Klasa JSON (musi pasowaæ strukturze zwracanej przez backend)
+
 [System.Serializable]
 public class ExpireResponse
 {
-    public string date;
+    public string date; //y-m-d
+}
+
+[System.Serializable]
+public class ProductResponse
+{
+    public string label;
+    public float confidence;
 }

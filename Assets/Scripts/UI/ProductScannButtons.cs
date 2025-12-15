@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 public class ProductScannButtons : MonoBehaviour
 {
     [SerializeField] private TMP_InputField nameInput;
+
+    private void Start()
+    {
+        nameInput.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return UITools.ValidateCharExclusive("\\/:*?\"<>|", addedChar);
+        };
+    }
     public void SaveProduct()
     {
         if (!string.IsNullOrWhiteSpace(nameInput.text))
@@ -32,7 +40,7 @@ public class ProductScannButtons : MonoBehaviour
                 HasExpirationDate = true,
                 DateOfStorage = SerializableDate.Today()
             };
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
         }
     }
 }

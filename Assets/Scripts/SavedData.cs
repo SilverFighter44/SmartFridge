@@ -68,8 +68,17 @@ public static class SavedData
 
     public static List<Product> GetProductsList()
     {
-        string mapFilePath = Application.persistentDataPath + "/products.json";
-        string fileContent = System.IO.File.ReadAllText(mapFilePath);
-        return JsonUtility.FromJson<ProductListWrapper>(fileContent).List;
+        string filePath = Application.persistentDataPath + "/products.json";
+        string directory = Path.GetDirectoryName(filePath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        if (File.Exists(filePath))
+        {
+            string fileContent = System.IO.File.ReadAllText(filePath);
+            return JsonUtility.FromJson<ProductListWrapper>(fileContent).List;
+        }
+        return new List<Product>();
     }
 }
