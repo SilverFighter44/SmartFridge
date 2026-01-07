@@ -16,13 +16,15 @@ public class ImageSender : MonoBehaviour
 
     [SerializeField] private ScannerType scannerType;
     [SerializeField] private TMP_InputField nameInput, dayInput, monthInput, yearInput;
+    [SerializeField] private GameObject processingPanel;
 
     // Wstaw œcie¿kê wzglêdn¹ lub absolutn¹
     public string imagePath;
 
     private void Start()
     {
-        switch(scannerType)
+        processingPanel.SetActive(false);
+        switch (scannerType)
         {
             case ScannerType.Product:
                 url = "https://przepyszne.eu/upload/food";
@@ -71,6 +73,7 @@ public class ImageSender : MonoBehaviour
             Debug.Log("OdpowiedŸ serwera: " + json);
 
             // Odczyt 
+            processingPanel.SetActive(true);
             try
             {
                 switch(scannerType)
@@ -94,6 +97,7 @@ public class ImageSender : MonoBehaviour
             {
                 Debug.LogWarning("Nie uda³o siê sparsowaæ JSON.");
             }
+            processingPanel.SetActive(false);
         }
     }
 }

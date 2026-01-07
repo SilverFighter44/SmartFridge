@@ -35,7 +35,7 @@ public class ProductList : MonoBehaviour
 
     private void Start()
     {
-        List<Product> _products = SavedData.GetProductsList();        // uncomment all after implementing adding new products
+        List<Product> _products = SavedData.GetProductsList();
         if(ProductData.Instance.SaveCurrentProduct)
         {
             _products.Add(ProductData.Instance.CurrentProduct);
