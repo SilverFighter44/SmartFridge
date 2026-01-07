@@ -1,16 +1,27 @@
 using UnityEngine;
+using Unity.Notifications.Android;
+using System;
 
 public class NotificationsManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-    }
+        //var channel = new AndroidNotificationChannel
+        //{
+        //    Id = "default_channel",
+        //    Name = "Powiadomienia",
+        //    Importance = Importance.High,
+        //    Description = "Powiadomienia aplikacji",
+        //};
+        //AndroidNotificationCenter.RegisterNotificationChannel(channel);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //var notification = new AndroidNotification
+        //{
+        //    Title = "Hej!",
+        //    Text = "To dzia³a w tle :)",
+        //    //RepeatInterval = TimeSpan.FromHours(6)
+        //};
+
+        //AndroidNotificationCenter.SendNotification(notification, "default_channel");
     }
 }

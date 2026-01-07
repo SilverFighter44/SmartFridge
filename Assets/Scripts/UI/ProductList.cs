@@ -45,6 +45,7 @@ public class ProductList : MonoBehaviour
         foreach (var product in _products)
         {
             ProductItem item = Instantiate(listItemPrefab);
+            item.DateOfStorage = product.DateOfStorage;
             item.transform.parent = itemList;
             item.ProductName = product.Name;
             item.IsOpen = product.IsOpen;

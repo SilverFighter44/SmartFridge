@@ -58,22 +58,19 @@ public class Scanner : MonoBehaviour
             RawImage rawImage = GetComponent<RawImage>();
             rawImage.texture = webcamTexture;
 
-            // Dopasuj proporcje
-            RectTransform rt = GetComponent<RectTransform>();
-            float aspectRatio = (float)webcamTexture.width / webcamTexture.height;
-            rt.sizeDelta = new Vector2(rt.sizeDelta.y * aspectRatio, rt.sizeDelta.y);
+            AspectRatioFitter arf = rawImage.GetComponent<AspectRatioFitter>();
+            if (arf != null)
+            {
+                arf.aspectRatio = (float)webcamTexture.width / webcamTexture.height;
+                arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            }
 
             webcamTexture.Play();
 
             rawImage.rectTransform.localEulerAngles = new Vector3(0, 0, -webcamTexture.videoRotationAngle);
-            if (webcamTexture.videoVerticallyMirrored)
-            {
-                rawImage.rectTransform.localScale = new Vector3(1, -1, 1);
-            }
-            else
-            {
-                rawImage.rectTransform.localScale = Vector3.one;
-            }
+            rawImage.rectTransform.localScale = webcamTexture.videoVerticallyMirrored
+                ? new Vector3(1, -1, 1)
+                : Vector3.one;
         }
         else
         {
@@ -87,21 +84,43 @@ public class Scanner : MonoBehaviour
 
     IEnumerator AdjustFrame()
     {
+        // Czekamy na wyrenderowanie RawImage i ustawienie tekstury
         yield return null;
 
-        RectTransform rt = GetComponent<RectTransform>();
+        if (rawImage == null || frame == null || webcamTexture == null)
+            yield break;
 
-        // Ramka ma mieæ 60% wysokoœci i 60% szerokoœci RawImage
-        float width = rt.rect.width * frameWidth;
-        float height = rt.rect.height * frameHeight;
+        RectTransform rawRect = rawImage.rectTransform;
 
-        frame.sizeDelta = new Vector2(width, height);
+        // Pobieramy aktualne wymiary RawImage w UI
+        float rawWidth = rawRect.rect.width;
+        float rawHeight = rawRect.rect.height;
+
+        // Ustawiamy ramkê na 60% wymiarów RawImage
+        float frameWidth = rawWidth * 0.5f;
+        float frameHeight = rawHeight * 0.1f;
+
+        frame.sizeDelta = new Vector2(frameWidth, frameHeight);
+
+        // Wyœrodkowanie ramki wzglêdem RawImage
+        frame.anchoredPosition = Vector2.zero;
+
+        // Upewniamy siê, ¿e ramka dziedziczy obrót RawImage
+        frame.localEulerAngles = Vector3.zero;
     }
     void OnDisable()
     {
         if (webcamTexture != null && webcamTexture.isPlaying)
         {
             webcamTexture.Stop();
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (webcamTexture != null && !webcamTexture.isPlaying)
+        {
+            webcamTexture.Play();
         }
     }
 }

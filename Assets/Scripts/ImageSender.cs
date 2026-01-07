@@ -42,13 +42,14 @@ public class ImageSender : MonoBehaviour
 
     IEnumerator UploadImage()
     {
+
         // Sprawdzenie czy plik istnieje
         if (!File.Exists(imagePath))
         {
             Debug.LogError("Nie znaleziono pliku: " + imagePath);
             yield break;
         }
-
+        processingPanel.SetActive(true);
         // Wczytanie obrazu jako bajty
         byte[] imageBytes = File.ReadAllBytes(imagePath);
 
@@ -73,7 +74,6 @@ public class ImageSender : MonoBehaviour
             Debug.Log("Odpowiedü serwera: " + json);
 
             // Odczyt 
-            processingPanel.SetActive(true);
             try
             {
                 switch(scannerType)
