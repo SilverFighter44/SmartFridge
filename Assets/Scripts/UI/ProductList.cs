@@ -2,8 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Rendering.Universal;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class ProductList : MonoBehaviour
@@ -19,12 +17,12 @@ public class ProductList : MonoBehaviour
     }
     public static ProductList Instance;
     [SerializeField] private Transform itemList;
-    [SerializeField] private GameObject mainTab, editTab;
+    [SerializeField] private GameObject mainTab, editTab, canBeOpenForOtherTab2;
     [SerializeField] private ProductItem currentProduct, listItemPrefab;
     [SerializeField] private List<ProductItem> products;
     [SerializeField] private TMP_Text itemNameText, storageDateText, expirationDate, changeNameMessage, scanButtonText, changeExpDateMessage;
     [SerializeField] private ItemInfoEditable openingDate;
-    [SerializeField] private TMP_InputField newNameField, dayField, monthField, yearField;
+    [SerializeField] private TMP_InputField newNameField, dayField, monthField, yearField, howManyDaysCanBeOpenField;
     private delegate void OperationToConfirm();
     private OperationToConfirm operationToConfirm;
 
@@ -35,6 +33,28 @@ public class ProductList : MonoBehaviour
 
     private void Start()
     {
+        dayField.characterLimit = 2;
+        monthField.characterLimit = 2;
+        yearField.characterLimit = 4;
+        howManyDaysCanBeOpenField.characterLimit = 3;
+
+        dayField.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return UITools.ValidateCharInclusie("0123456789", addedChar);
+        };
+        monthField.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return UITools.ValidateCharInclusie("0123456789", addedChar);
+        };
+        yearField.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return UITools.ValidateCharInclusie("0123456789", addedChar);
+        };
+        howManyDaysCanBeOpenField.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return UITools.ValidateCharInclusie("0123456789", addedChar);
+        };
+
         List<Product> _products = SavedData.GetProductsList();
         if(ProductData.Instance.SaveCurrentProduct)
         {
@@ -212,7 +232,26 @@ public class ProductList : MonoBehaviour
         SaveProducts();
     }
 
+    public void CanBeOpenFor(int days)  // priorytet data, otwarcie
+    {
+        currentProduct.ExpirationDate = new SerializableDate(DateTime.Now.AddDays(days));
+        currentProduct.HasExpirationDate = true;
+        currentProduct.IsOpen = true;
+        currentProduct.DateOfOppenning = SerializableDate.Today();
+        UpdateEditTab();
+        SaveProducts();
+    }
 
+    public void CanBeOpenForOther()
+    {
+        int number;
+        if (int.TryParse(howManyDaysCanBeOpenField.text,out number))
+        {
+            CanBeOpenFor(number);
+            canBeOpenForOtherTab2.SetActive(false);
+            mainTab.SetActive(true);
+        }
+    }
     public void ConfirmOperation()
     {
         operationToConfirm();

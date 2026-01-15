@@ -76,7 +76,7 @@ public class ImageSender : MonoBehaviour
             // Odczyt 
             try
             {
-                switch(scannerType)
+                switch (scannerType)
                 {
                     case ScannerType.Product:
                         FoodResponse product = JsonUtility.FromJson<FoodResponse>(json);
@@ -84,10 +84,16 @@ public class ImageSender : MonoBehaviour
                         Debug.Log("Znaleziony produkt: " + product.label + " (pewnoœæ: " + product.confidence + ")");
                         break;
                     case ScannerType.Date:
-                        ExpireResponse data = JsonUtility.FromJson<ExpireResponse>(json); 
-                        dayInput.text = data.date.Split('-')[2];
-                        monthInput.text = data.date.Split('-')[1];
-                        yearInput.text = data.date.Split('-')[0];
+                        ExpireResponse data = JsonUtility.FromJson<ExpireResponse>(json);
+                        // Format otrzymany: DD/MM/YY (np. 26/10/26)
+                        string[] parts = data.date.Split('/');
+                        dayInput.text = parts[0];      // DD
+                        monthInput.text = parts[1];    // MM
+                        if (parts[2].Length == 2)
+                        {
+                            parts[2] = "20" + parts[2];
+                        }
+                        yearInput.text = parts[2];     // YY
                         Debug.Log("Data wa¿noœci: " + data.date);
                         break;
                 }

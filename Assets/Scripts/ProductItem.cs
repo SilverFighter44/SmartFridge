@@ -7,6 +7,14 @@ public struct SerializableDate
 {
 
     public int day, month, year, hour;
+
+    public SerializableDate(DateTime date)
+    {
+        this.day = date.Day;
+        this.month = date.Month;
+        this.year = date.Year;
+        this.hour = date.Hour;
+    }
     public SerializableDate(int day, int month, int year, int hour)
     {
         this.day = day;
