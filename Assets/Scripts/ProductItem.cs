@@ -99,7 +99,7 @@ public class ProductItem : MonoBehaviour
                 stateText.text = dayUntilExpiration + " " + ((dayUntilExpiration == 1) ? "day" : "days") + " until expitation date";
                 stateText.color = Color.green; // to do later: change color to yellow when expiration is close =====================================================
             }
-            if (daysAfterExpiration <= 2) // Product expires today
+            if (daysAfterExpiration >= -2) // Product expires today
             {
                 stateText.color = Color.orange;
             }
@@ -116,6 +116,4 @@ public class ProductItem : MonoBehaviour
     {
         ProductList.Instance.openEditTab(this);
     }
-
-
 }

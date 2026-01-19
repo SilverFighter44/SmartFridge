@@ -100,6 +100,14 @@ public class ProductList : MonoBehaviour
         mainTab.SetActive(false);
     }
 
+    public void UpdateItemInfos()
+    {
+        foreach (var item in products)
+        {
+            item.UpdateItemInfo();
+        }
+    }
+
     public void UpdateEditTab()
     {
         itemNameText.text = currentProduct.ProductName;
