@@ -41,6 +41,19 @@ public class ProductItem : MonoBehaviour
     [SerializeField] private string productName = "name";
     [SerializeField] private SerializableDate expirationDate, dateOfStorage = SerializableDate.Today(), dateOfOppenning;
     [SerializeField] private bool hasExpirationDate, isOpen;
+    private int notificationIdWarning, notificationIdExpired;
+
+    public int NotificationIdWarning
+    {
+        get { return notificationIdWarning; }
+        set { notificationIdWarning = value; }
+    }
+
+    public int NotificationIdExpired
+    {
+        get { return notificationIdExpired; }
+        set { notificationIdExpired = value; }
+    }
 
     public string ProductName
     {
@@ -92,6 +105,10 @@ public class ProductItem : MonoBehaviour
             {
                 stateText.text = daysAfterExpiration + " " + ((daysAfterExpiration == 1) ? "day" : "days") + " after expitation date";
                 stateText.color = Color.red;
+            }
+            else if (daysAfterExpiration > -1) // Product expires today
+            {
+                stateText.text = "Expires today";
             }
             else // Product not expired
             {

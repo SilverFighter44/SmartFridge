@@ -72,6 +72,8 @@ public class ProductList : MonoBehaviour
             item.HasExpirationDate = product.HasExpirationDate;
             item.DateOfOppenning = product.DateOfOppenning;
             item.ExpirationDate = product.ExpirationDate;
+            NotificationsManager.Instance.CancelProductNotifications(item);
+            NotificationsManager.Instance.ScheduleProductNotifications(item);
             products.Add(item);
         }
 
@@ -163,6 +165,7 @@ public class ProductList : MonoBehaviour
     }
     private void DeleteProduct()
     {
+        NotificationsManager.Instance.CancelProductNotifications(currentProduct);
         products.Remove(currentProduct);
         Destroy(currentProduct.gameObject);
         openMainTab();
@@ -225,6 +228,8 @@ public class ProductList : MonoBehaviour
             {
                 currentProduct.HasExpirationDate = true;
                 currentProduct.ExpirationDate = new SerializableDate(newDate.Day, newDate.Month, newDate.Year, 0);
+                NotificationsManager.Instance.CancelProductNotifications(currentProduct);
+                NotificationsManager.Instance.ScheduleProductNotifications(currentProduct);
                 UpdateEditTab();
                 changeExpDateMessage.text = "Expiration date changed";
             }
