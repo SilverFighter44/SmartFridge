@@ -85,47 +85,30 @@ public class ProductItem : MonoBehaviour
     {
         nameText.text = productName;
         SerializableDate currentDate = SerializableDate.Today();
-        if (!isOpen) // Product closed
+        if (hasExpirationDate) // Product has expiration date
         {
-            if (hasExpirationDate) // Product has expiration date
+            int daysAfterExpiration = SerializableDate.CompareDays(currentDate, expirationDate);
+            if (daysAfterExpiration > 0) // Product expired
             {
-                int daysAfterExpiration = SerializableDate.CompareDays(currentDate, expirationDate);
-                if (daysAfterExpiration > 0) // Product expired
-                {
-                    stateText.text = daysAfterExpiration + " " + ((daysAfterExpiration == 1) ? "day" : "days") + " after expitation date";
-                    stateText.color = Color.red;
-                }
-                else // Product not expired
-                {
-                    int dayUntilExpiration = Math.Abs(daysAfterExpiration);
-                    stateText.text = dayUntilExpiration + " " + ((dayUntilExpiration == 1) ? "day" : "days") + " until expitation date";
-                    stateText.color = Color.green; // to do later: change color to yellow when expiration is close =====================================================
-                }
-            }
-            else // Product doesn't have expiration date
-            {
-                int daysInFridge = SerializableDate.CompareDays(currentDate, dateOfStorage);
-                stateText.text = daysInFridge + " " + ((daysInFridge == 1) ? "day" : "days") + " in fridge";
-                stateText.color = Color.orange; // to do later: change color depending of product and days in fridge ====================================================
-            }
-        }
-        else
-        {
-            int daysAfterExpiration = 0, daysOpen = SerializableDate.CompareDays(currentDate, dateOfOppenning);
-            if (hasExpirationDate)
-            {
-                daysAfterExpiration = SerializableDate.CompareDays(currentDate, expirationDate);
-            }
-            if (daysAfterExpiration > 0) // Product open and expired
-            {
-                stateText.text = daysAfterExpiration + " " + ((daysAfterExpiration == 1) ? "day" : "days") + " expired and " + daysOpen + " days open";
+                stateText.text = daysAfterExpiration + " " + ((daysAfterExpiration == 1) ? "day" : "days") + " after expitation date";
                 stateText.color = Color.red;
             }
-            else // Product open
+            else // Product not expired
             {
-                stateText.text = daysOpen + " " + ((daysOpen == 1) ? "day" : "days") + " open";
-                stateText.color = Color.orange; // to do later: change color depending of product and days in fridge =====================================================
+                int dayUntilExpiration = Math.Abs(daysAfterExpiration);
+                stateText.text = dayUntilExpiration + " " + ((dayUntilExpiration == 1) ? "day" : "days") + " until expitation date";
+                stateText.color = Color.green; // to do later: change color to yellow when expiration is close =====================================================
             }
+            if (daysAfterExpiration <= 2) // Product expires today
+            {
+                stateText.color = Color.orange;
+            }
+        }
+        else // Product doesn't have expiration date
+        {
+            int daysInFridge = SerializableDate.CompareDays(currentDate, dateOfStorage);
+            stateText.text = daysInFridge + " " + ((daysInFridge == 1) ? "day" : "days") + " in fridge";
+            stateText.color = Color.orange; // to do later: change color depending of product and days in fridge ====================================================
         }
     }
 

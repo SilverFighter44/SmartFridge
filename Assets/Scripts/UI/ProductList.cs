@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class ProductList : MonoBehaviour
@@ -232,9 +232,18 @@ public class ProductList : MonoBehaviour
         SaveProducts();
     }
 
-    public void CanBeOpenFor(int days)  // priorytet data, otwarcie
+    public void CanBeOpenFor(int days)
     {
-        currentProduct.ExpirationDate = new SerializableDate(DateTime.Now.AddDays(days));
+        DateTime dateBeforeOpen = new DateTime(), dateAfterOpen = DateTime.Now.AddDays(days);
+        if (currentProduct.HasExpirationDate == true)
+        {
+            dateBeforeOpen = new DateTime(year: currentProduct.ExpirationDate.year, month: currentProduct.ExpirationDate.month, day: currentProduct.ExpirationDate.day);
+        }
+        if (currentProduct.HasExpirationDate == false || dateBeforeOpen > dateAfterOpen)
+        {
+            Debug.Log(dateAfterOpen);
+            currentProduct.ExpirationDate = new SerializableDate(dateAfterOpen.Day, dateAfterOpen.Month, dateAfterOpen.Year, 0); 
+        }
         currentProduct.HasExpirationDate = true;
         currentProduct.IsOpen = true;
         currentProduct.DateOfOppenning = SerializableDate.Today();
