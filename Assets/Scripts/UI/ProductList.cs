@@ -255,7 +255,9 @@ public class ProductList : MonoBehaviour
         if (currentProduct.HasExpirationDate == false || dateBeforeOpen > dateAfterOpen)
         {
             Debug.Log(dateAfterOpen);
-            currentProduct.ExpirationDate = new SerializableDate(dateAfterOpen.Day, dateAfterOpen.Month, dateAfterOpen.Year, 0); 
+            currentProduct.ExpirationDate = new SerializableDate(dateAfterOpen.Day, dateAfterOpen.Month, dateAfterOpen.Year, 0);
+            NotificationsManager.Instance.CancelProductNotifications(currentProduct);
+            NotificationsManager.Instance.ScheduleProductNotifications(currentProduct);
         }
         currentProduct.HasExpirationDate = true;
         currentProduct.IsOpen = true;
