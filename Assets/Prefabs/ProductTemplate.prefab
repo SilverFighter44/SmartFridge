@@ -187,11 +187,11 @@ MonoBehaviour:
     month: 0
     year: 0
     hour: 0
-  dateOfInserting:
-    day: 27
-    month: 10
-    year: 2025
-    hour: 10
+  dateOfStorage:
+    day: 2
+    month: 2
+    year: 2026
+    hour: 9
   dateOfOppenning:
     day: 0
     month: 0
@@ -266,8 +266,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: State
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f45a7e83c19ccbe41b5759cad8fe4fa4, type: 2}
+  m_sharedMaterial: {fileID: 8160237465785848845, guid: f45a7e83c19ccbe41b5759cad8fe4fa4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -402,8 +402,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3af0db44557287c4998726cf22a286af, type: 2}
+  m_sharedMaterial: {fileID: 2374228505281091555, guid: 3af0db44557287c4998726cf22a286af, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
